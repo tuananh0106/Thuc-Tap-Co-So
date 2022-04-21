@@ -18,21 +18,20 @@
 
 
                 <h1>Login</h1>
-                <form th:action="@{/login}" method="post" th:object="${user}">
+                <form th:action="@{/newtopic}" method="post" th:object="${topic}">
                     <div class="form-group">
-                        <label class="control-label" for="Email"> Email </label>
-                        <input type="text" id="Email" class="form-control" th:field="*{email}" required
+                        <label class="control-label" for="Title"> Title </label>
+                        <input type="text" id="Title" class="form-control" th:field="*{title}" required
                                autofocus="autofocus"/>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="Password"> Password </label>
-                        <input type="password" id="Password" class="form-control" th:field="*{password}" required/>
+                        <label class="control-label" for="Body"> Body </label>
+                        <textarea id="Body" class="form-control" th:field="*{body}" rows="5" required/>
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success">Login</button>
-                        <span>Your dont have account? <a href="/" th:href="@{/registration}">Registration here</a></span>
+                        <button type="submit" class="btn btn-success">ADD TOPIC</button>
                     </div>
                 </form>
             </div>

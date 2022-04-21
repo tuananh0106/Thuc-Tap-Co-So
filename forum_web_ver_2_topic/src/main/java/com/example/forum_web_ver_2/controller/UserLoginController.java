@@ -7,12 +7,12 @@ import org.apache.tomcat.util.http.parser.Cookie;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @AllArgsConstructor
+@SessionAttributes("user")
 public class UserLoginController {
     private UserService userService;
     @ModelAttribute("user")
@@ -25,7 +25,6 @@ public class UserLoginController {
     }
     @PostMapping("/login")
     public String Login(@ModelAttribute("user") UserDto userDto, Model model){
-        Session userCookie = new Session("usergmailcookie",userDto.getEmail());
         if(userService.checkPasswordUser(userDto.getEmail(),userDto.getPassword())){
             return "redirect:/home?success";
         }

@@ -24,14 +24,13 @@ public class Topic implements Serializable {
     @Column(name ="body",nullable = false, length = 1024)
     private String body;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @Column(name ="user_id")
+    private int UserId;
 
-    public Topic(String title, String creationDate, String body, User user) {
+    public Topic(String title, String creationDate, String body, int userId) {
         this.title = title;
         CreationDate = creationDate;
         this.body = body;
-        this.user = user;
+        this.UserId=userId;
     }
 }

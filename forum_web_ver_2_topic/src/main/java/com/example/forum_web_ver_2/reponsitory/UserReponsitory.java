@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 @EnableJpaRepositories
 public interface UserReponsitory extends JpaRepository<User,Integer> {
+    User getUserByEmail(String email);
     User findUserByEmail(String email);
 }

@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
         if(user.getPassword().equals(password)) return true;
         return false;
     }
+
+    @Override
+    public User getUserbyEmail(String email) {
+        return userReponsitory.getUserByEmail(email);
+    }
 }
