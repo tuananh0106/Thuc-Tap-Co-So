@@ -7,20 +7,27 @@ import com.example.forum_web_ver_2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserReponsitory userReponsitory;
+
     @Override
     public void save(UserDto userDto) {
-        User user=new User(userDto.getEmail(),
+        LocalDateTime Date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String creationDate = Date.format(formatter);
+        User user = new User(userDto.getEmail(),
                 userDto.getUserDisplayName(),
                 ".",
                 0,
                 0,
                 userDto.getPassword(),
-                "8/4/2022",
+                creationDate,
                 "ROLE_USER"
         );
         System.out.println(user);
@@ -28,9 +35,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean checkPasswordUser(String email,String password) {
+    public Boolean checkPasswordUser(String email, String password) {
         User user = userReponsitory.findUserByEmail(email);
-        if(user.getPassword().equals(password)) return true;
+        if (user.getPassword().equals(password)) return true;
         return false;
+    }
+
+    @Override
+    public User getUserbyEmail(String email) {
+        return userReponsitory.getUserByEmail(email);
     }
 }

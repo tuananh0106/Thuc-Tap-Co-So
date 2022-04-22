@@ -1,12 +1,25 @@
 package com.example.forum_web_ver_2.controller;
 
+import com.example.forum_web_ver_2.entity.Topic;
+import com.example.forum_web_ver_2.reponsitory.TopicReponsitory;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class HomeController {
+    @Autowired
+    private TopicReponsitory topicReponsitory;
     @GetMapping("/home")
-    public String showHomeForm(){
+    public String showHomeForm(Model model){
+        List<Topic> topics = topicReponsitory.findAll();
+        model.addAttribute("topics",topics);
         return "/home";
     }
 }
