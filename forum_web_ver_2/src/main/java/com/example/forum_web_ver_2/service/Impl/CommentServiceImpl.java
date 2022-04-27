@@ -1,10 +1,11 @@
 package com.example.forum_web_ver_2.service.Impl;
 
-import com.example.forum_web_ver_2.dto.TopicDto;
+import com.example.forum_web_ver_2.dto.CommentDto;
+import com.example.forum_web_ver_2.entity.Comment;
 import com.example.forum_web_ver_2.entity.Topic;
 import com.example.forum_web_ver_2.entity.User;
-import com.example.forum_web_ver_2.reponsitory.TopicReponsitory;
-import com.example.forum_web_ver_2.service.TopicService;
+import com.example.forum_web_ver_2.reponsitory.CommentReponsitory;
+import com.example.forum_web_ver_2.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,23 +13,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
-public class TopicServiceImpl implements TopicService {
+public class CommentServiceImpl implements CommentService {
     @Autowired
-    private TopicReponsitory topicReponsitory;
+    private CommentReponsitory commentReponsitory;
+
     @Override
-    public void save(TopicDto topicDto, User user) {
+    public void save(CommentDto commentDto, User user, Topic topic) {
         LocalDateTime Date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
         String creationDate = Date.format(formatter);
-        Topic topic = new Topic(topicDto.getTitle(),
+        Comment comment=new Comment(
+                commentDto.getBody(),
                 creationDate,
-                topicDto.getBody(),
-                user);
-        topicReponsitory.save(topic);
-    }
-
-    @Override
-    public Topic findTopicById(Integer id) {
-        return topicReponsitory.findTopicById(id);
+                user,
+                topic
+        );
+        commentReponsitory.save(comment);
     }
 }

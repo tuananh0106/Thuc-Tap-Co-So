@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
                 creationDate,
                 "ROLE_USER"
         );
-        System.out.println(user);
         userReponsitory.save(user);
     }
 

@@ -11,4 +11,5 @@ import java.util.List;
 @EnableJpaRepositories
 public interface TopicReponsitory extends JpaRepository<Topic,Integer> {
     List<Topic> getAllById(Integer id);
+    Topic findTopicById(Integer id);
 }

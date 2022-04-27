@@ -28,6 +28,6 @@ public class UserLoginController {
         if(userService.checkPasswordUser(userDto.getEmail(),userDto.getPassword())){
             return "redirect:/home?success";
         }
-        return "/login";
+        return "redirect:/login?passwordwrong";
     }
 }
