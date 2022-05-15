@@ -11,4 +11,6 @@ import java.util.List;
 @EnableJpaRepositories
 public interface CommentReponsitory  extends JpaRepository<Comment,Integer> {
     List<Comment> getAllByTopic_Id(Integer topicId);
+    Integer countCommentByTopic_Id(Integer topicId);
+    void removeAllByTopic_Id(Integer topicId);
 }

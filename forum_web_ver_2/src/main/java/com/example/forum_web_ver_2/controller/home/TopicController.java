@@ -1,5 +1,4 @@
-package com.example.forum_web_ver_2.controller;
-
+package com.example.forum_web_ver_2.controller.home;
 import com.example.forum_web_ver_2.dto.CommentDto;
 import com.example.forum_web_ver_2.dto.TopicDto;
 import com.example.forum_web_ver_2.dto.UserDto;
@@ -17,23 +16,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @Controller
 @AllArgsConstructor
-public class TopicController {
+@SessionAttributes("userdto")
+public class TopicController{
     private TopicService topicService;
     private UserService userService;
     private CommentService commentService;
+    @ModelAttribute("userdto")
+    public UserDto userDto(){
+        return new UserDto();
+    }
+
     @Autowired
     private CommentReponsitory commentReponsitory;
     @Autowired
     private UserReponsitory userReponsitory;
-    //    @ModelAttribute("topic")
-//    public TopicDto topicDto(){
-//        return new TopicDto();
-//    }
     @ModelAttribute("newcomment")
     public CommentDto commentDto(){
         return new CommentDto();
@@ -44,16 +43,20 @@ public class TopicController {
         List<Comment> comments = commentReponsitory.getAllByTopic_Id(topic.getId());
         model.addAttribute("topic", topic);
         model.addAttribute("comments", comments);
+        model.addAttribute("commentcount",commentService);
         return "topic";
     }
-
     @PostMapping("/topic/{id}")
-    public String postComment(@SessionAttribute("user") UserDto userDto,
+    public String postComment(@ModelAttribute("userdto") UserDto userDto,
                               @PathVariable String id,
                               @ModelAttribute("newcomment") CommentDto commentDto
     ) {
+
         Topic topic = topicService.findTopicById(Integer.parseInt(id));
         User user = userReponsitory.getUserByEmail(userDto.getEmail());
+        if(user == null){
+            return "redirect:/login";
+        }
         commentService.save(commentDto, user, topic);
         return "redirect:/topic/"+id;
     }

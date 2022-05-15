@@ -1,4 +1,4 @@
-package com.example.forum_web_ver_2.controller;
+package com.example.forum_web_ver_2.controller.user_login_logout_registration;
 
 import com.example.forum_web_ver_2.dto.UserDto;
 import com.example.forum_web_ver_2.service.UserService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @AllArgsConstructor
 public class UserRegistrationController {
     private UserService userService;
-    @ModelAttribute("user")
+    @ModelAttribute("userdto")
     public UserDto userResgistrationDto(){
         return new UserDto();
     }
@@ -22,7 +22,13 @@ public class UserRegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registerUserAccount(@ModelAttribute("user") UserDto userDto){
+    public String registerUserAccount(@ModelAttribute("userdto") UserDto userDto){
+        if(userService.checkUserbyEmail(userDto.getEmail())){
+            return "redirect:/registration?emailexist";
+        }
+        if(userDto.getPassword().equals(userDto.getCheckPass())==false){
+            return "redirect:/registration?checkpass";
+        }
         userService.save(userDto);
         return "redirect:/registration?success";
     }

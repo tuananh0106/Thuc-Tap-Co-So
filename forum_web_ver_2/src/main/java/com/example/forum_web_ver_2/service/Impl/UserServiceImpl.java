@@ -41,6 +41,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean checkUserbyEmail(String email) {
+        User user = userReponsitory.findUserByEmail(email);
+        if(user==null) return false;
+        return true;
+    }
+
+    @Override
     public User getUserbyEmail(String email) {
         return userReponsitory.getUserByEmail(email);
     }

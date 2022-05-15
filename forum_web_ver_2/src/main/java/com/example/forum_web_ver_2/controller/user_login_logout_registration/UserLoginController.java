@@ -1,4 +1,4 @@
-package com.example.forum_web_ver_2.controller;
+package com.example.forum_web_ver_2.controller.user_login_logout_registration;
 
 import com.example.forum_web_ver_2.dto.UserDto;
 import com.example.forum_web_ver_2.service.UserService;
@@ -12,10 +12,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes("user")
+@SessionAttributes("userdto")
 public class UserLoginController {
     private UserService userService;
-    @ModelAttribute("user")
+    @ModelAttribute("userdto")
     public UserDto userDto(){
         return new UserDto();
     }
@@ -24,7 +24,10 @@ public class UserLoginController {
         return "/login";
     }
     @PostMapping("/login")
-    public String Login(@ModelAttribute("user") UserDto userDto, Model model){
+    public String Login(@ModelAttribute("userdto") UserDto userDto, Model model){
+        if(userService.checkUserbyEmail(userDto.getEmail())==false){
+            return "redirect:/login?emailwrong";
+        }
         if(userService.checkPasswordUser(userDto.getEmail(),userDto.getPassword())){
             return "redirect:/home?success";
         }

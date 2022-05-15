@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     void save(UserDto userDto);
     Boolean checkPasswordUser(String email,String password);
+    Boolean checkUserbyEmail(String email);
     User getUserbyEmail(String email);
 }

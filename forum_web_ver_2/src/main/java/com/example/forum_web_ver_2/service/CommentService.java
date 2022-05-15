@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CommentService {
     void save(CommentDto commentDto, User user, Topic topic);
+    int countComment(Topic topic);
+    void delete(Integer topicId);
 }
