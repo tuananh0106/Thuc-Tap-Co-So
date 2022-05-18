@@ -7,21 +7,29 @@ import com.example.forum_web_ver_2.entity.User;
 import com.example.forum_web_ver_2.service.ProfileService;
 import com.example.forum_web_ver_2.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@NoArgsConstructor
 @AllArgsConstructor
 @SessionAttributes("userdto")
 public class ProfileController {
+    @Autowired
     private UserService userService;
+
+    @Autowired
     private ProfileService profileService;
+
     @ModelAttribute("userdto")
     public UserDto userDto(){
         return new UserDto();
     }
-    @ModelAttribute("profile")
+
+    @ModelAttribute("profileuser")
     public ProfileDto profileDto(){
         return new ProfileDto();
     }
@@ -33,15 +41,15 @@ public class ProfileController {
         }
         model.addAttribute("user",user);
         Profile profile = profileService.findProfileByUser(user);
-        model.addAttribute("profile",profile);
-        return "/profile";
+        model.addAttribute("profileuser",profile);
+        return "profile";
     }
+
     @PostMapping("/profile")
     public String getprofile(@SessionAttribute("userdto")UserDto userDto, Model model,
-                             @PathVariable("firstName") String firstName){
+                             @ModelAttribute("profileuser") ProfileDto profileDto){
         User user = userService.getUserbyEmail(userDto.getEmail());
-        ProfileDto profileDto=new ProfileDto();
         profileService.save(profileDto,user);
-        return "/profile";
+        return "profile";
     }
 }
